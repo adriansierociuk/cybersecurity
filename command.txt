@@ -42,3 +42,40 @@ cat /etc/network/interfaces
 egrep -v "^#\^$" /etc/dhcp/dhclient.conf 
 cat /etc/hosts
 cat /etc/resolv.conf
+arp
+route 
+ip route 
+netstat -plunt
+lsof -i
+tcpdump
+netstat --unix
+lsof -U
+
+/* -- Zainstalowane oprogramowanie -- */
+dpgk -l
+grep ^Package: /var/lib/dpkg/status
+ls -laR /var/cache/apt/archives
+cat /var/log/dpkg.log
+ls -la /usr/local/ /opt/
+for dir in $(echo $PATH | sed 's/:/ /g'); do ls -laR $dir; done
+
+/* -- Repozytorium pakietów -- */  
+egrep -v "^#|^$' /etc/apt/sources.list
+egrep -vh "^#|^$" /etc/apt/sources.list.d/*
+
+/* -- Dostępne usługi -- */
+ls -laR /etc/init{,.d}
+ls -laR /etc/rx*.d
+chkconfig --list 
+
+/* Działające procesy */
+ps auswww
+ps auswwe
+ps -elfH
+lsof +L1
+
+
+/* -- Informacje o rotowaniu się logów, jak długo są przechowywane stare logi, itp. -- */
+cat /etc/logrotate.conf 
+ls -laR /etc/logrotate.d
+
