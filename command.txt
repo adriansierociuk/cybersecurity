@@ -1,1 +1,44 @@
 Linux Debian
+/* -- Nazwa komputera -- */
+hostname
+cat /etc/hostname 
+
+/* -- Czas, strefa czasowa -- */
+date 
+cat /etc/timezone 
+ls -la /etc/location
+
+/* -- Dystrybucja, wersja -- */
+lsb_relase -a
+cat /etc/*-relase 
+cat /etc/issue.net
+
+/* -- Dysk, partycje -- */
+fdisk -l
+mount 
+cat /etc/fstab
+
+/* -- Zaplanowane zadania -- */
+crontab -l
+crontab -l -u $USER
+ls -laR /etc/cron{tab,.*}
+ls -laR /var/spool/cron
+
+/* -- Polecenia uruchamiane przy starcie -- */
+cat /etc/ec.local
+ls -laR /etc/rc*.d 
+find / -path "*/.config/autostart"
+ls -laR /etc/init{,.d}
+
+/* -- Polecenia uruchamiane przy logowaniu -- */
+cat /etc/bash.bashrc
+ls -laR /etc/profile{,.d}
+find / -name .bashrc -o -name .bash_profile -o -name .profile
+
+/* -- Sieć -- */
+ifconfig
+ip addr 
+cat /etc/network/interfaces
+egrep -v "^#\^$" /etc/dhcp/dhclient.conf 
+cat /etc/hosts
+cat /etc/resolv.conf
