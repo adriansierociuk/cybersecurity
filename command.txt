@@ -79,3 +79,76 @@ lsof +L1
 cat /etc/logrotate.conf 
 ls -laR /etc/logrotate.d
 
+/* -- Konfiguracja SSH -- */
+cat /etc/ssh/sshd_config
+cat /etc/ssh/ssh_config
+find / -type d -name .ssh
+
+/* -- Data instalacji systemu (nie ma dedykowanego sposoby na poznanie daty instalacji) -- */
+stat -c '%z %n' /var/log/installer/*
+debugfs -R 'stat /' `mount | grep 'on / ' awk '{print $1}'` | grep crtime
+stat -c '%z %n' /etc/ssh/ssh_host_*_key
+
+
+/* -- Konta uytkowników -- */
+cat /etc/passwd
+getent passwd 
+
+/* -- Grupy -- */
+cat /etc/group
+getent group 
+
+/* -- Aministratorzy (przez polecenie sudo) -- */
+cat /etc/sudoers
+
+---------------------------------------------------------
+
+Komedy związane z logowaniem uzytkownika 
+
+/* -- Aktualny status systemu,uptime, zalogowani i wylogowani uytkownicy itp. -- */
+last -f /var/run/utmp
+w 
+who
+pinky
+
+/* -- Historyczne dane z utmp -- */
+last
+last -f /var/log/wtmp
+last -f /var/log/wtmp.1
+
+
+/* -- Nieudane próby logowania -- */
+last -f /var/log/btmp
+last -f /var/log/btmp.1
+
+/* -- Ostatnie zalogowanie poszczególnych uytkowników (dane są przechowywane jeszcze w innym źródle - /var/log/lastlog)
+lastlog
+
+
+/* -- Logi autoryzacji, m.in SSH i sudo -- */
+cat /var/log/auth.log 
+
+-----------------------------------------------------------
+
+Komendy związane z konkretnym uytkownikiem 
+
+/* Zmienna środowiskowa zalenza od uytkownika, zawierająca ściezki, w których są wyszukiwane programy z wykonanego polecenia -- */
+echo $PATH 
+
+/* -- Historia wykonywanych poleceń, m.in. .bash_history, .mysql_history, .nano_history -- */
+ls -la ~/.*history
+
+/* Prywatny oraz publiczny klucz SSH */
+cat ~/.ssh/id_rsa{,.pub}
+
+/* -- Publiczne klucze SSH, które mają mozliwość logowania na dane konto bez hasła -- */
+cat ~/.ssh/authorized_keys
+
+/* -- Odciski serwerów SSH, do których były wykonwane połączenia -- */
+cat ~/.ssh/known_hosts
+
+
+/* Przeszukanie wszystkich kalogów domowych pod obecność katalogu o nazwie .ssh */
+
+for dir in $(awk -F: '{print $6}' /etc/passwd);do if [ -d $dir]; then find $dir -maxdepth 1 -type d -name .ssh;fi;done
+
